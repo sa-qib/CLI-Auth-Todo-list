@@ -1,7 +1,7 @@
 import sqlite3
 import bcrypt
-from utlis import login_args
-from exceptions import *
+from .utlis import login_args
+from .exceptions import *
 
 
 class Login:

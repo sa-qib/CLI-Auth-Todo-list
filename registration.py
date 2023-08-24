@@ -1,9 +1,9 @@
-from utlis import register_args
 import sqlite3
 import re
 import validators
-from exceptions import *
 import bcrypt
+from .utlis import register_args
+from .exceptions import *
 
 
 class Signup:
