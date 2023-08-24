@@ -1,8 +1,8 @@
-from utilities import register_args
+from utlis import register_args
 import sqlite3
 import re
 import validators
-import exceptions
+from exceptions import *
 import bcrypt
 
 
@@ -31,7 +31,7 @@ class Signup:
             username = self.cursor.fetchall()
             if username:
                 print("username already exists.")
-                raise exceptions.UserExistsError
+                raise UserExistsError
             else:
                 return valid_user.group()
         else:
@@ -41,7 +41,7 @@ class Signup:
             print("- username123")
             print("- user001")
             print("- user_name_12")
-            raise exceptions.InvalidUsernameError
+            raise InvalidUsernameError
 
 
     def email(self):
@@ -65,7 +65,7 @@ class Signup:
             hashed_password = bcrypt.hashpw(encoded, bcrypt.gensalt())
             return hashed_password
         else:
-            raise exceptions.InvalidPassError
+            raise InvalidPassError
 
 
     def confirm_registration(self, username, email, password):
@@ -93,11 +93,4 @@ class Signup:
             email TEXT NULL,
             password TEXT NOT NULL 
             )""")
-
-
-
-
-
-
-# Creating an instance of the Signup class
-signup = Signup()
+        

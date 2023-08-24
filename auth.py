@@ -1,7 +1,7 @@
-from utilities import login_args
 import sqlite3
-import exceptions
 import bcrypt
+from utlis import login_args
+from exceptions import *
 
 
 class Login:
@@ -23,7 +23,7 @@ class Login:
         user_exist = user.fetchone()
         
         if user_exist is None:
-            raise exceptions.UserNotFoundError
+            raise UserNotFoundError
         else:
             self.password(username)
 
@@ -37,18 +37,8 @@ class Login:
         password_fetch = passwd.fetchone()
         
         if password_fetch is None:
-            raise exceptions.UserNotFoundError
+            raise UserNotFoundError
         elif bcrypt.checkpw(password.encode('utf-8'), password_fetch[0]):
             print(password)
         else:
-            raise exceptions.IncorrectPassword
-
-        
-
-
-
-
-# creating an instance of the login class
-login = Login()
-
-login.password(login.userName)
+            raise IncorrectPassword
