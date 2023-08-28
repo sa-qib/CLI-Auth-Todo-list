@@ -24,3 +24,9 @@ class IncorrectPassword(Exception):
 
 class DulpicateTaskError(Exception):
     pass
+
+class EmptyValueError(Exception):
+    pass
+
+class IncorrectIntError(Exception):
+    pass
