@@ -2,8 +2,8 @@ import sqlite3
 import re
 import validators
 import bcrypt
-from .utlis import register_args
-from .exceptions import *
+from utilities.utils import register_args
+from utilities.exceptions import *
 
 
 class Signup:
@@ -45,7 +45,7 @@ class Signup:
 
 
     def email(self):
-        email = input("Email: ")
+        email = input("Email (optional): ")
         if validators.email(email):
             return email
         elif email == "":
@@ -94,3 +94,14 @@ class Signup:
             password TEXT NOT NULL 
             )""")
         
+        self.cursor.execute(
+            """CREATE TABLE IF NOT EXISTS tasks (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            task_name TEXT UNIQUE NOT NULL,
+            status TEXT DEFAULT 'pending',
+            user_id INTEGER,
+            FOREIGN KEY (user_id) REFERENCES users(id)
+            )"""
+        )
+        
+signup = Signup()

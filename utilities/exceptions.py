@@ -17,3 +17,10 @@ class UserNotFoundError(Exception):
 
 class IncorrectPassword(Exception):
     pass
+
+
+
+# custom excetion classes for todolist
+
+class DulpicateTaskError(Exception):
+    pass
