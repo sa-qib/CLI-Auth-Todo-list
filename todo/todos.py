@@ -1,6 +1,7 @@
 import sqlite3
 from utilities.exceptions import *
 from authentication.auth import Login
+from utilities.validate_input import get_input
 
 class TodoList(Login):
     def __init__(self) -> None:
@@ -36,36 +37,48 @@ class TodoList(Login):
             """SELECT task_name, status, user_id FROM tasks WHERE user_id = ? """, (self.user_id,)
         )
         tasks = self.cursor.fetchall()
-        for task in tasks:
+        for task in sorted(tasks):
             task, status, user_id = task
             task_list.append({"task":task, "status":status, "user_id":user_id})
         return task_list
 
 
-    def add(self, user_id, task):
+    def add(self):
         """
         Add a new task to the list.
 
         Raises:
             ValueError: If the task already exists.
         """
+
+        tasks = self.view() 
+        task = get_input("Add Task: ")
+        if task not in tasks:
+            self.cursor.execute(
+                """INSERT INTO tasks (user_id, task_name) VALUES (?, ?)""", (self.user_id, task,)
+            )
+            self.conn.commit()
+        else:
+            raise ValueAlreadyExistError
+
+    def remove(self):
         tasks = self.view()
-        while True:   
-            task = self.get_input()
-            if task not in tasks:
-                self.cursor.execute(
-                    """INSERT INTO tasks (user_id, task_name) VALUES (?, ?)""", (self.user_id, task)
-                )
-            else:
-                raise DulpicateTaskError
+        task_id = int(get_input("remove task by ID: "))
+        
+        for id, task in enumerate(sorted(tasks, key=lambda t: t["task"]), start=1):
+            try:
+                if task_id == id:
+                    # print(task)
+                    self.cursor.execute(
+                        """DELETE FROM tasks WHERE task_name = ?""", (task["task"],)
+                    )
+                    self.conn.commit()
+                else:
+                    raise IndexError
+            except IndexError:
+                Display.flash_msg(f"ID with {task_id} not found.")
 
-    def remove(self, user_id, task):
 
-        # self.cursor.execute(
-        #     """DELETE 
-        #     """
-        # )
-        ...
 
     def edit(self):
         ...

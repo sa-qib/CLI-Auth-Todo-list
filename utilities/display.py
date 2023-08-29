@@ -3,7 +3,7 @@ import os
 
 class Display:
 
-    menu_table = (["1. Add Task, 2. Remove Tasks, 3.Edit, 4. Quit"],)
+    menu_table = (["1. Add Task, 2. Remove Tasks, 3.Edit, 4. Logout"],)
     task_menu = (["0. Menu, 1. Add Task, 2. Remove Task, 3. Edit Task, 4. Quit"],)
     edit_menu = (["1. Task, 2. Priority, 3. Status"],)
 

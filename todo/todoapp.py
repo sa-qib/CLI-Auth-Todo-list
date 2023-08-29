@@ -1,11 +1,12 @@
 import sys
+import sqlite3
 from tabulate import tabulate
 from utilities import validate_input, exceptions
 from utilities.display import Display
 from .todos import TodoList
 
 
-todoapp = TodoList()
+todo_app = TodoList()
 
 
 
@@ -28,8 +29,8 @@ def main_menu():
         match choice:
             case 1:
                 add()
-        #     case 2:
-        #         remove()
+            case 2:
+                remove()
         #     case 3:
         #         edit()
             case 4:
@@ -51,12 +52,12 @@ def view():
      
     Display.clear_screen()
     print(Display.color("cyan", tabulate([["\t|      TODO-LIST      |\t"]], tablefmt="grid")))
-
+    print("note: CTRL + C to exit")
     tasks_table = []
     header = ["ID", "Task", "Status"]
     colalign =["center"] * len(header)
     try:
-        for id, task in enumerate(todoapp.view(), start=1):
+        for id, task in enumerate(sorted(todo_app.view(), key=lambda t: t["task"]), start=1):
             if task["status"] == "pending":
                 task["status"] = Display.color("red", task["status"])
             if task["status"] == "Complete":
@@ -73,4 +74,24 @@ def view():
 
 
 def add():
-    ...
+    view()
+    Display.clear_screen()
+    print("note: CTRL + C to exit")
+    while True:
+        try:
+            todo_app.add()
+            continue
+        except sqlite3.IntegrityError:
+            Display.flash_msg("Task Already Exist")
+        except KeyboardInterrupt:
+            main_menu()
+
+def remove():
+    
+    view()
+    while True:
+        todo_app.remove()
+        view()
+
+
+    

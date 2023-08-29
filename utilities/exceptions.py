@@ -35,3 +35,12 @@ class EmptyValueError(Exception):
 
 class IncorrectIntError(Exception):
     pass
+
+
+
+class ValueAlreadyExistError(Exception):
+    """Custom exception for invalid input."""
+
+    def __init__(self, message="Input Value Already Exists"):
+        self.message = message
+        super().__init__(self.message)
