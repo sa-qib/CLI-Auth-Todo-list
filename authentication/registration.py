@@ -104,7 +104,7 @@ class Signup:
         self.cursor.execute(
             """CREATE TABLE IF NOT EXISTS tasks (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            task_name TEXT UNIQUE NOT NULL,
+            task_name TEXT NOT NULL,
             status TEXT DEFAULT 'pending',
             user_id INTEGER,
             FOREIGN KEY (user_id) REFERENCES users(id)

@@ -37,10 +37,14 @@ class TodoList(Login):
             """SELECT task_name, status, user_id FROM tasks WHERE user_id = ? """, (self.user_id,)
         )
         tasks = self.cursor.fetchall()
-        for task in sorted(tasks):
-            task, status, user_id = task
-            task_list.append({"task":task, "status":status, "user_id":user_id})
-        return task_list
+        if tasks:
+            for task in sorted(tasks):
+                task, status, user_id = task
+                task_list.append({"task":task, "status":status, "user_id":user_id})
+            return task_list
+        else:
+            raise EmptyValueError
+    
 
 
     def add(self):
@@ -48,18 +52,25 @@ class TodoList(Login):
         Add a new task to the list.
 
         Raises:
-            ValueError: If the task already exists.
+            ValueAlreadyExistError: If the task already exists.
         """
 
-        tasks = self.view() 
-        task = get_input("Add Task: ")
-        if task not in tasks:
-            self.cursor.execute(
-                """INSERT INTO tasks (user_id, task_name) VALUES (?, ?)""", (self.user_id, task,)
-            )
-            self.conn.commit()
-        else:
-            raise ValueAlreadyExistError
+        task = self.task()
+        # try:
+        exist_tasks = self.view() 
+        
+        for exist_task in exist_tasks:
+            if exist_task["task"] == task and exist_task["user_id"] == self.user_id:
+                raise ValueAlreadyExistError
+        # except EmptyValueError:
+        #     pass
+
+
+        self.cursor.execute(
+            """INSERT INTO tasks (user_id, task_name) VALUES (?, ?)""", (self.user_id, task,)
+        )
+        self.conn.commit()
+    
 
     def remove(self):
         tasks = self.view()
@@ -83,6 +94,4 @@ class TodoList(Login):
     def edit(self):
         ...
     
-    def delete(self):
-        ...
     

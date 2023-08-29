@@ -19,7 +19,11 @@ def main_menu():
 
     while True:
         view()
-        print(tabulate(Display.menu_table))
+        try:
+            todo_app.view()
+            print(tabulate(Display.menu_table))
+        except exceptions.EmptyValueError:
+            print(tabulate(Display.main_menu))
         try:
             choice = int(validate_input.get_input("Choose: "))
         except ValueError:
@@ -31,8 +35,8 @@ def main_menu():
                 add()
             case 2:
                 remove()
-        #     case 3:
-        #         edit()
+            case 3:
+                edit()
             case 4:
                 Display.clear_screen()
                 sys.exit(Display.flash_msg("\n\tGood Bye.\n"))
@@ -53,9 +57,11 @@ def view():
     Display.clear_screen()
     print(Display.color("cyan", tabulate([["\t|      TODO-LIST      |\t"]], tablefmt="grid")))
     print("note: CTRL + C to exit")
+
     tasks_table = []
     header = ["ID", "Task", "Status"]
     colalign =["center"] * len(header)
+
     try:
         for id, task in enumerate(sorted(todo_app.view(), key=lambda t: t["task"]), start=1):
             if task["status"] == "pending":
@@ -66,8 +72,7 @@ def view():
             tasks_table.append([id, task['task'], task['status']])
 
     except exceptions.EmptyValueError:
-        print(Display.color("red", "\n\tNo task available\n"))
-    
+        print(Display.color("red", "\n  No task available\n"))
     else:
         print(tabulate(tasks_table, headers=header, colalign=colalign, tablefmt="grid"))
         
@@ -81,17 +86,28 @@ def add():
         try:
             todo_app.add()
             continue
-        except sqlite3.IntegrityError:
+        except exceptions.ValueAlreadyExistError:
             Display.flash_msg("Task Already Exist")
         except KeyboardInterrupt:
             main_menu()
+        except exceptions.EmptyValueError:
+            Display.flash_msg("task cannot be empty!")
+        
+
+
 
 def remove():
-    
     view()
     while True:
-        todo_app.remove()
-        view()
+        try:
+            todo_app.remove()
+            view()
+        except (KeyboardInterrupt, exceptions.EmptyValueError):
+            view()
+            break
 
+        
 
+def edit():
+    ...
     
