@@ -4,10 +4,12 @@ from utilities import validate_input, exceptions
 from utilities.display import Display
 from .todos import TodoList
 
+
 todoapp = TodoList()
 
 
-def main():
+
+def main_menu():
     """
     Main function to run the Todo app.
 

@@ -1,24 +1,19 @@
-import sqlite3
 import sys
-import argparse
-# from authentication.registration import Signup
-# from authentication.auth import Login
-
-
+from todo.views import main_menu
+from utilities.exceptions import *
 
 def main():
     if sys.argv[1] == "--signup":
         from authentication.registration import Signup
         Signup()
     elif sys.argv[1] == "-u" and sys.argv[3]:
-        from authentication.auth import Login
-        Login()
-
-        
+        main_menu()
+    else:
+        print("Signup --signup")
 
 
 
 if __name__ == "__main__":
     main()
 
-    
+

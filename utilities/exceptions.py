@@ -1,3 +1,5 @@
+from utilities.display import Display
+
 # custom exceptions
 # custom exception classes for signup
 
@@ -16,7 +18,10 @@ class UserNotFoundError(Exception):
     pass
 
 class IncorrectPassword(Exception):
-    pass
+    def __init__(self, message="Incorrect password.") -> None:
+        self.message = message
+        Display.flash_msg(self.message)  # Using Display.flash_msg to display the message
+        super().__init__(self.message)
 
 
 

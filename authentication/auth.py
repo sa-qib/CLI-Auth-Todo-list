@@ -2,7 +2,7 @@ import sqlite3
 import bcrypt
 from utilities.utils import login_args
 from utilities.exceptions import *
-from todo.views import main
+from utilities.display import Display
 
 
 class Login:
@@ -28,7 +28,7 @@ class Login:
         user_exist = self.cursor.fetchone()
         
         if user_exist is None:
-            raise UserNotFoundError
+            raise UserNotFoundError("Incorrect username or password.")
         else:
             self.password(username)
 
@@ -42,9 +42,9 @@ class Login:
         password_fetch = passwd.fetchone()
         
         if password_fetch is None:
-            raise UserNotFoundError
+            raise UserNotFoundError("Incorrect username or password.")
         elif bcrypt.checkpw(password.encode('utf-8'), password_fetch[0]):
-            main()
+            pass
         else:
             raise IncorrectPassword
         

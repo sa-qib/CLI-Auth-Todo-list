@@ -1,11 +1,14 @@
 import sqlite3
 from utilities.exceptions import *
+from authentication.auth import Login
 
-class TodoList:
+class TodoList(Login):
     def __init__(self) -> None:
+        super().__init__()
         self.conn = sqlite3.connect('todos.db')
         self.cursor = self.conn.cursor()
-        self.user_id = self.cursor("SELECT id FROM users")
+        self.user_name = self.userName
+        self.user_id = self.cursor.execute('SELECT id FROM users WHERE username = ?', (self.user_name,)).fetchone()[0]
 
 
     @property
@@ -30,12 +33,11 @@ class TodoList:
     def view(self):
         task_list = []
         self.cursor.execute(
-            """SELECT * FROM tasks"""
+            """SELECT task_name, status, user_id FROM tasks WHERE user_id = ? """, (self.user_id,)
         )
         tasks = self.cursor.fetchall()
         for task in tasks:
-            id, task, status, user_id = task
-            self.user_id = user_id
+            task, status, user_id = task
             task_list.append({"task":task, "status":status, "user_id":user_id})
         return task_list
 

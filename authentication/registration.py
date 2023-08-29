@@ -52,7 +52,8 @@ class Signup:
             if validators.email(email):
                 return email
             elif email == "":
-                pass
+                email = None
+                break
             else:
                 print("Invalid email address. Emails must follow the standard format, such as:")
                 print("- example@example.com")
