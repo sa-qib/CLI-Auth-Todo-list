@@ -47,3 +47,11 @@ class Display:
                 return f"\u001b[36m {prompt} \u001b[0m"
             case "white":
                 return f"\u001b[37m {prompt} \u001b[0m"
+            
+    @classmethod
+    def help(self):
+        print("Usage: main.py <command>")
+        print("\nCommands:")
+        print("  --signup    Create a new user account.")
+        print("  -u USERNAME -p PASSWORD Log in with an existing account.")
+        print("  --help      Show this help message.")

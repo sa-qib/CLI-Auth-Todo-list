@@ -13,7 +13,7 @@ def main():
         else:
             print("Signup --signup")
     except IndexError:
-        print("hello")
+        Display.help()
 
 
 
