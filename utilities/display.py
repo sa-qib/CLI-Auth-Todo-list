@@ -3,9 +3,8 @@ import os
 
 class Display:
     main_menu = (["1. Add Task, 4. Logout"],)
-    menu_table = (["1. Add Task, 2. Remove Tasks, 3.Edit, 4. Logout"],)
-    task_menu = (["0. Menu, 1. Add Task, 2. Remove Task, 3. Edit Task, 4. Quit"],)
-    edit_menu = (["1. Task, 2. Priority, 3. Status"],)
+    menu_table = (["1. Add, 2. Remove, 3.Edit, 4. Logout"],)
+    edit_menu = (["0. Menu, 1. Mark, 2. logout"],)
 
     @classmethod
     def flash_msg(cls, msg):

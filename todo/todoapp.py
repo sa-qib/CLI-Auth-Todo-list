@@ -25,7 +25,7 @@ def main_menu():
         except exceptions.EmptyValueError:
             print(tabulate(Display.main_menu))
         try:
-            choice = int(validate_input.get_input("Choose: "))
+            choice = int(validate_input.get_input("Choice: "))
         except ValueError:
             Display.flash_msg("Choice should be a number between 1 and 4")
             Display.clear_screen()
@@ -38,8 +38,8 @@ def main_menu():
             case 3:
                 edit()
             case 4:
-                Display.clear_screen()
-                sys.exit(Display.flash_msg("\n\tGood Bye.\n"))
+                logout()
+                
             case _:
                 Display.flash_msg("Choice should be a number between 1 and 4")
                 Display.clear_screen()
@@ -63,13 +63,13 @@ def view():
     colalign =["center"] * len(header)
 
     try:
-        for id, task in enumerate(sorted(todo_app.view(), key=lambda t: t["task"]), start=1):
+        for task in todo_app.view():
             if task["status"] == "pending":
                 task["status"] = Display.color("red", task["status"])
-            if task["status"] == "Complete":
+            if task["status"] == "complete":
                 task["status"] = Display.color("green", task["status"])
 
-            tasks_table.append([id, task['task'], task['status']])
+            tasks_table.append([task["ID"], task['task'], task['status']])
 
     except exceptions.EmptyValueError:
         print(Display.color("red", "\n  No task available\n"))
@@ -97,17 +97,41 @@ def add():
 
 
 def remove():
-    view()
     while True:
+        view()
         try:
             todo_app.remove()
-            view()
+            
         except (KeyboardInterrupt, exceptions.EmptyValueError):
             view()
             break
+        except IndexError as e:
+            Display.flash_msg(str(e))
+        except ValueError:
+            Display.flash_msg("Value cannot be empty")
+
 
         
 
 def edit():
-    ...
     
+    while True:
+        view()
+        try:
+            todo_app.edit()
+            continue
+        except IndexError as e:
+            Display.flash_msg(str(e))
+            continue
+        except KeyboardInterrupt:
+            view()
+            break
+
+    
+
+    
+
+
+def logout():
+    Display.clear_screen()
+    sys.exit(Display.flash_msg("\n\tGood Bye.\n"))
