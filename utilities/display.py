@@ -8,25 +8,39 @@ class Display:
 
     @classmethod
     def flash_msg(cls, msg):
-            print(cls.color("red", msg), end='', flush=True)
-            sleep(1)
-            print('\r', ' ' * len(msg), '\r', end='', flush=True)
+        """
+        Display a message for a short duration and then clear it.
+
+        Args:
+            msg (str): The message to be displayed briefly.
+        """
+            
+        print(cls.color("red", msg), end='', flush=True)
+        sleep(1)
+        print('\r', ' ' * len(msg), '\r', end='', flush=True)
+
 
     @classmethod
     def clear_screen(cls):
-        """Clear the terminal screen."""
+        """
+        Clear the terminal screen.
+
+        This method clears the terminal screen based on the operating system.
+        """
+
         os.system("cls" if os.name == "nt" else "clear")
+
 
 
     @classmethod
     def color(cls, clr, prompt):
+
         """
-        Add color using the ASNI escape.
+        Add color to the prompt using the ASNI escape sequences.
 
         Args:
-            prompt (clr): selecting color [red, green,
-                        yellow, blue, megenta, cyan, white].
-            prompt (prompt): prompt msg you want apply color.
+            clr (str): The color to apply [red, green, yellow, blue, magenta, cyan, white].
+            prompt (str): The prompt message to which color should be applied.
         """
 
         if prompt == "Task removed successfully.":
@@ -48,8 +62,16 @@ class Display:
             case "white":
                 return f"\u001b[37m {prompt} \u001b[0m"
             
+
     @classmethod
     def help(self):
+        """
+        Display help information for the application usage.
+
+        This method provides a brief overview of the application's command-line usage.
+        It explains how to sign up, log in, and view help.
+        """
+        
         print("Usage: main.py <command>")
         print("\nCommands:")
         print("  --signup    Create a new user account.")

@@ -3,8 +3,22 @@ from utilities.exceptions import *
 from authentication.auth import Login
 from utilities.validate_input import get_input
 
+
 class TodoList(Login):
+    """
+    The `TodoList` class represents a blueprint for managing tasks in the Todo List Application.
+    It inherits from the `Login` class for user authentication and interacts with the SQLite database
+    to perform various task-related operations such as adding, viewing, removing, and editing tasks.
+    """
+
     def __init__(self) -> None:
+        """
+        Initializes the TodoList instance.
+        Inherits user authentication from the parent `Login` class.
+        Establishes a connection to the 'todos.db' SQLite database.
+        Retrieves user information (user ID) from the database based on the authenticated user.
+        """
+
         super().__init__()
         self.conn = sqlite3.connect('todos.db')
         self.cursor = self.conn.cursor()
@@ -22,6 +36,11 @@ class TodoList(Login):
 
 
     def task(self):
+        """
+        Prompts the user to input a new task description.
+        Validates that the description is not empty.
+        Returns the description of the task.
+        """
         description = input("Add Task: ").strip().title()
         while not description:
             raise EmptyValueError
@@ -32,6 +51,12 @@ class TodoList(Login):
 
 
     def view(self):
+        """
+        Retrieves and displays tasks associated with the authenticated user from the database.
+        Returns a list of task dictionaries containing task details (ID, task name, status, user ID).
+        Raises an `EmptyValueError` if no tasks are found for the user.
+        """
+
         task_list = []
         self.cursor.execute(
             """SELECT task_name, status, user_id FROM tasks WHERE user_id = ? """, (self.user_id,)
@@ -49,10 +74,9 @@ class TodoList(Login):
 
     def add(self):
         """
-        Add a new task to the list.
-
-        Raises:
-            ValueAlreadyExistError: If the task already exists.
+        Adds a new task to the user's task list in the database.
+        Validates that the task doesn't already exist for the user.
+        Raises a `ValueAlreadyExistError` if the task already exists.
         """
 
         task = self.task()
@@ -73,6 +97,12 @@ class TodoList(Login):
 
 
     def remove(self):
+        """
+        Removes a task from the user's task list based on the provided task ID.
+        Validates the task ID and removes the corresponding task from the database.
+        Raises an `IndexError` if the task ID is not found.
+        """
+
         tasks = self.view()
         task_id = int(get_input("remove task by ID: "))
         filter_task = list(filter(lambda i: i["ID"] == task_id, tasks))
@@ -88,6 +118,12 @@ class TodoList(Login):
 
 
     def edit(self):
+        """
+        Marks a task as complete or pending based on the provided task ID.
+        Validates the task ID and updates the task's status in the database.
+        Raises an `IndexError` if the task ID is not found.
+        """
+
         tasks = self.view()
         task_id = int(get_input("mark task by ID: "))
         filter_task = list(filter(lambda i: i["ID"] == task_id, tasks))[0]

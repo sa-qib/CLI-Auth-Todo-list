@@ -11,6 +11,7 @@ def get_input(text):
         Returns:
             str: The user's input.
         """
+        
         try:
             user_input = input(text).lower() 
             return user_input

@@ -15,6 +15,7 @@ def main_menu():
     Main function to run the Todo app.
 
     This function displays the main menu and handles user choices.
+    It shows the menu options for adding, removing, editing tasks, and logging out.
     """
 
     while True:
@@ -49,9 +50,10 @@ def main_menu():
 
 def view():
     """
-    View tasks in a grid table format.
+    View tasks in a tabulated grid format.
 
-    This function displays the tasks in a tabulated grid.
+    This function displays the tasks from the `TodoList` instance in a tabulated grid.
+    The task status is colored red for pending and green for complete tasks.
     """
      
     Display.clear_screen()
@@ -79,6 +81,13 @@ def view():
 
 
 def add():
+    """
+    Add a new task to the user's task list.
+
+    This function prompts the user to input a new task description and adds it to the task list.
+    Handles cases where the task already exists or input is empty.
+    """
+
     view()
     Display.clear_screen()
     print("note: CTRL + C to exit")
@@ -97,6 +106,13 @@ def add():
 
 
 def remove():
+    """
+    Remove a task from the user's task list.
+
+    This function prompts the user to provide a task ID and removes the corresponding task.
+    Handles cases of keyboard interruption, empty task list, and invalid task ID.
+    """
+
     while True:
         view()
         try:
@@ -114,7 +130,13 @@ def remove():
         
 
 def edit():
-    
+    """
+    Edit the status of a task in the user's task list.
+
+    This function prompts the user to provide a task ID and toggles the task status between 'pending' and 'complete'.
+    Handles cases of keyboard interruption, invalid task ID, and updates the task status in the task list.
+    """
+
     while True:
         view()
         try:
@@ -127,11 +149,14 @@ def edit():
             view()
             break
 
-    
-
-    
 
 
 def logout():
+    """
+    Exit the application and display a farewell message.
+
+    This function clears the screen, displays a goodbye message, and exits the application.
+    """
+    
     Display.clear_screen()
     sys.exit(Display.flash_msg("\n\tGood Bye.\n"))
