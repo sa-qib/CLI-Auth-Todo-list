@@ -2,7 +2,10 @@ import sqlite3
 import re
 import validators
 import bcrypt
+import getpass
+
 from utilities.utils import register_args
+from utilities.display import Display
 from utilities.exceptions import *
 
 
@@ -96,16 +99,30 @@ class Signup:
         Validates and returns the provided password.
         Ensures the password meets complexity requirements and hashes it using bcrypt.
         """
-
+        
         while True:
-            password = input("Password: ")
-            if password := re.match("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$_])[A-Za-z0-9@#$_]{8,}$", password):
-                encoded = password.group().encode("utf-8")
+            password = getpass.getpass(prompt="Password: ")
+            
+            complexity_matches = {
+                'capital': bool(re.search(r'[A-Z]', password)),
+                'small': bool(re.search(r'[a-z]', password)),
+                'number': bool(re.search(r'[0-9]', password)),
+                'special': bool(re.search(r'[@#$_]', password)),
+                'length': len(password) >= 8,
+            }
+
+            for criterion, matches in complexity_matches.items():
+                message = f"- Contains at least one {criterion} letter" if criterion != 'length' else "- Password must be at least 8 characters long"
+                message += ": "
+                message += "Pass" if matches else "Fail"
+                color = "green" if matches else "red"
+                print(Display.color(color, message))
+
+            if all(complexity_matches.values()):
+                encoded = password.encode("utf-8")
                 hashed_password = bcrypt.hashpw(encoded, bcrypt.gensalt())
                 return hashed_password
-            else:
-                raise InvalidPassError
-                
+
 
 
     def confirm_registration(self, username, email, password):

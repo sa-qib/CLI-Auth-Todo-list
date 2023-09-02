@@ -10,7 +10,8 @@ class InvalidUsernameError(Exception):
     pass
 
 class InvalidPassError(Exception):
-    pass
+    def __init__(self, msg="Password Must be: ") -> None:
+        super().__init__(msg)
 
 
 # custom exception classes for login
