@@ -32,4 +32,12 @@ Its simple just run these following commands:
 ```shell
 python main.py --signup
 ```
+You will be prompted for username and password.
+**NOTE:** *username* must be unique for each user.
+
+Run this command for signing in.
+```shell
+python main.py -u [username] -p [password]
+```
+Rest of CRUD functions are now self explanatory.
 
