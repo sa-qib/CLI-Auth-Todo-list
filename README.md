@@ -85,7 +85,7 @@ We welcome contributions to MyTodo. If you'd like to contribute code, report iss
 
 
 ## License
-MyTodo is released under the MIT License. See the [LICENSE](https://github.com/yourusername/mytodo/blob/main/LICENSE) for details.
+MyTodo is released under the MIT License.
 
 
 **Contact and Support**
