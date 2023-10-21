@@ -159,4 +159,5 @@ def logout():
     """
     
     Display.clear_screen()
+    
     sys.exit(Display.flash_msg("\n\tGood Bye.\n"))

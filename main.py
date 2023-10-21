@@ -1,5 +1,6 @@
 import sys
 from utilities.exceptions import *
+from utilities.display import Display
 
 def main():
     """
@@ -21,6 +22,12 @@ def main():
             todoapp.main_menu()
         else:
             print("Usage: Signup --signup or Login -u USERNAME -p PASSWORD")
+    except UserExistsError:
+        Display.flash_msg("User Already Exists!")
+    except KeyboardInterrupt:
+        Display.clear_screen()
+        Display.flash_msg("Good Bye!")
+
     except IndexError:
         Display.help()
 

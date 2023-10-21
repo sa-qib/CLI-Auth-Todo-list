@@ -58,7 +58,6 @@ class Signup:
                 self.cursor.execute("SELECT username FROM users where username = ?", (user, ))
                 username = self.cursor.fetchall()
                 if username:
-                    print("username already exists.")
                     raise UserExistsError
                 else:
                     return valid_user.group()
@@ -126,8 +125,8 @@ class Signup:
 
 
     def confirm_registration(self, username, email, password):
-        confirmation = input("Confirm registration (yes/no): ")
-        if confirmation.lower() == "yes":
+        confirmation = input("Confirm registration (y/N): ")
+        if confirmation.lower() == "y":
             self.register(username, email, password)
             print("Registration successful!")
         else:
