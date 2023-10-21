@@ -16,15 +16,19 @@ pip install -r requirements.txt
    - Python 3.6 or higher should be installed on your system.
 
 2. **Installation:**
-   - Open your terminal or command prompt.
-   - Run the following command to install MyTodo:
+   - go into directory where you cloned repo.
+   - Open your terminal or command prompt. 
+   - Run the following command to install required packages:
      ```shell
-     pip install mytodo
+     pip install -r requirements.txt
      ```
 
 ## Usage
 
-To use MyTodo, open your terminal and run the following command:
+To use MyTodo, open your terminal and run the following command
+If this is your first time you must have to create an account. 
+Its simple just run these following commands:
 
 ```shell
-mytodo
+python main.py --signup
+```
