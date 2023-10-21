@@ -8,9 +8,6 @@ MyTodo is a simple and intuitive command-line todo list application designed to 
 ```
 git clone https://github.com/sa-qib/CLI-Auth-Todo-list.git
 ```
-```
-pip install -r requirements.txt
-```
 
 1. **Prerequisites:**
    - Python 3.6 or higher should be installed on your system.
